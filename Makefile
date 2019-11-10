@@ -10,8 +10,7 @@ MAIN	=	main.c
 SRC	=	src/bsq.c			\
 		src/check_error.c		\
 		src/find_biggest_square.c	\
-		src/find_square.c		\
-		src/fill_biggest_square.c
+		src/find_square.c
 
 CFLAGS	=	-I./include/ -Wall -Wextra -Werror
 
