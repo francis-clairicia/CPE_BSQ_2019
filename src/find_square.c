@@ -8,14 +8,14 @@
 #include <my.h>
 #include <bsq.h>
 
-static int check_no_obstacle(int size, int **map, int x, int y)
+static int check_no_obstacle(int size, char **map, int x, int y)
 {
     int i = 0;
     int j = 0;
 
     while (j < size) {
         while (i < size) {
-            if (map[y + j][x + i] == 0)
+            if (map[y + j][x + i] == 'o')
                 return (1);
             i += 1;
         }
@@ -25,55 +25,31 @@ static int check_no_obstacle(int size, int **map, int x, int y)
     return (0);
 }
 
-static void try_to_find_square(int size, map_t *map, int x, int y)
+static int try_to_find_square(int size, map_t *map, int x, int y)
 {
-    int i = 0;
-    int j = 0;
-
     if (x + size - 1 >= map->nb_columns || y + size - 1 >= map->nb_lines)
-        return;
+        return (0);
     if (check_no_obstacle(size, map->surface, x, y) == 1)
-        return;
-    while (j < size) {
-        while (i < size) {
-            map->surface[y + j][x + i] = size;
-            i += 1;
-        }
-        i = 0;
-        j += 1;
-    }
+        return (0);
+    return (1);
 }
 
-void try_square_of_size(int size, map_t *map)
+void try_square_of_greater_size(square_t *square, map_t *map)
 {
     int x = 0;
     int y = 0;
 
     while (y < map->nb_lines) {
-        while (x < map->nb_columns) {
-            try_to_find_square(size, map, x, y);
-            x += 1;
+        if (try_to_find_square(square->size + 1, map, x, y) == 1) {
+            square->size += 1;
+            square->x = x;
+            square->y = y;
+            return;
         }
-        x = 0;
-        y += 1;
-    }
-}
-
-int biggest_nb(map_t *map)
-{
-    int x = 0;
-    int y = 0;
-    int value = 0;
-    int max = 0;
-
-    while (y < map->nb_lines) {
-        while (x < map->nb_columns) {
-            value = map->surface[y][x];
-            max = (value > max) ? value : max;
-            x += 1;
+        x += 1;
+        if (x == map->nb_columns) {
+            x = 0;
+            y += 1;
         }
-        x = 0;
-        y += 1;
     }
-    return (max);
 }

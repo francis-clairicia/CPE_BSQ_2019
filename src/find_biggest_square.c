@@ -14,11 +14,11 @@ static void get_map(map_t *map, char *buffer)
     int x = 0;
     int y = 0;
 
-    map->surface = malloc(sizeof(int *) * (map->nb_lines));
+    map->surface = malloc(sizeof(char *) * (map->nb_lines));
     while (buffer[i] != '\0') {
-        map->surface[y] = malloc(sizeof(int) * (map->nb_columns));
-        while (buffer[i] != '\n') {
-            map->surface[y][x] = (buffer[i] == 'o') ? 0 : 1;
+        map->surface[y] = malloc(sizeof(char) * (map->nb_columns));
+        while (buffer[i] != '\0' && buffer[i] != '\n') {
+            map->surface[y][x] = buffer[i];
             x += 1;
             i += 1;
         }
@@ -42,17 +42,18 @@ static void free_map(map_t *map)
 void find_the_biggest_square(char *buffer, int nb_lines, int nb_columns)
 {
     map_t map = {nb_lines, nb_columns, NULL};
+    square_t square = {0, 0, 0};
     int bsq_found = 0;
-    int bsq_size = 1;
+    int bsq_size = 0;
 
     get_map(&map, buffer);
     while (bsq_found == 0) {
-        try_square_of_size(bsq_size + 1, &map);
-        if (biggest_nb(&map) == bsq_size + 1)
+        try_square_of_greater_size(&square, &map);
+        if (square.size > bsq_size)
             bsq_size += 1;
         else
             bsq_found = 1;
     }
-    fill_biggest_square(buffer, &map, bsq_size);
+    fill_biggest_square(buffer, map.nb_columns + 1, &square);
     free_map(&map);
 }

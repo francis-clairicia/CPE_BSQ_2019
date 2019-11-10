@@ -17,15 +17,21 @@ typedef struct s_map
 {
     int nb_lines;
     int nb_columns;
-    int **surface;
+    char **surface;
 } map_t;
+
+typedef struct s_square
+{
+    int x;
+    int y;
+    int size;
+} square_t;
 
 int bsq(char const *filepath);
 void find_the_biggest_square(char *buffer, int nb_lines, int nb_columns);
 
 int check_error(char const *buffer);
-void try_square_of_size(int size, map_t *map);
-int biggest_nb(map_t *map);
-void fill_biggest_square(char *buffer, map_t *map, int square_size);
+void try_square_of_greater_size(square_t *square, map_t *map);
+void fill_biggest_square(char *buffer, int nb_columns, square_t *square);
 
 #endif

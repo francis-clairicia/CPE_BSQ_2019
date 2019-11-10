@@ -37,8 +37,8 @@ build_test:	lib
 
 tests_run:	build_test clean
 
-debug:	all
-	gcc -g $(MAIN) $(SRC) $(CFLAGS) -L./lib -lmy
+debug:	lib
+	gcc -g -o $(NAME) $(MAIN) $(SRC) $(CFLAGS) -L./lib -lmy
 
 clean:
 	rm -f $(OBJ)
