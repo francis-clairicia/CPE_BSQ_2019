@@ -47,16 +47,16 @@ static int check_map(char const *buffer, int total_nb_lines)
         if (buffer[i] != '\n') {
             nb_columns += 1;
         } else if (nb_columns != total_nb_columns) {
-            return (0);
+            return (1);
         } else {
             nb_lines += 1;
             nb_columns = 0;
         }
         i += 1;
     }
-    if (nb_lines - 1 != total_nb_lines)
-        return (0);
-    return (1);
+    if (nb_lines != total_nb_lines)
+        return (1);
+    return (0);
 }
 
 int check_error(char const *buffer)

@@ -16,7 +16,7 @@ int main(int ac, char **av)
     if (ac != 2)
         return (84);
     buffer = bsq(av[1]);
-    if (buffer->string == NULL)
+    if (buffer == NULL)
         value_to_return = 84;
     if (value_to_return == 0)
         write(1, buffer->string, buffer->size);

@@ -16,8 +16,7 @@ buffer_t *read_buffer(char const *filepath)
     struct stat statbuf;
 
     buffer->string = NULL;
-    if (stat(filepath, &statbuf) == -1)
-        return (buffer);
+    stat(filepath, &statbuf);
     size = statbuf.st_size;
     buffer->string = malloc(sizeof(char) * (size + 1));
     buffer->ptr_alloc = buffer->string;
@@ -45,8 +44,10 @@ buffer_t *bsq(char const *filepath)
     int nb_columns = 0;
     buffer_t *buffer = read_buffer(filepath);
 
-    if (check_error(buffer->string))
-        return (buffer);
+    if (check_error(buffer->string)) {
+        free_buffer(&buffer);
+        return (NULL);
+    }
     nb_lines = get_number_of_lines(buffer);
     nb_columns = my_find_char(buffer->string, '\n');
     find_the_biggest_square(buffer->string, nb_lines, nb_columns);
