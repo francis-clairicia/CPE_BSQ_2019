@@ -20,6 +20,7 @@ buffer_t *read_buffer(char const *filepath)
         return (buffer);
     size = statbuf.st_size;
     buffer->string = malloc(sizeof(char) * (size + 1));
+    buffer->ptr_alloc = buffer->string;
     fd = open(filepath, O_RDONLY);
     buffer->size = read(fd, buffer->string, size);
     (buffer->string)[buffer->size] = 0;
@@ -30,13 +31,11 @@ buffer_t *read_buffer(char const *filepath)
 static int get_number_of_lines(buffer_t *buffer)
 {
     char *current_buf = buffer->string;
-    char *new_buffer = NULL;
     int nb_lines = my_getnbr(buffer->string);
+    int index = my_find_char(current_buf, '\n') + 1;
 
-    new_buffer = my_strdup(&current_buf[my_find_char(current_buf, '\n') + 1]);
-    free(buffer->string);
-    buffer->string = new_buffer;
-    buffer->size = my_strlen(new_buffer);
+    buffer->string = &current_buf[index];
+    buffer->size -= index;
     return (nb_lines);
 }
 
@@ -47,7 +46,7 @@ buffer_t *bsq(char const *filepath)
     buffer_t *buffer = read_buffer(filepath);
 
     if (check_error(buffer->string))
-        return (NULL);
+        return (buffer);
     nb_lines = get_number_of_lines(buffer);
     nb_columns = my_find_char(buffer->string, '\n');
     find_the_biggest_square(buffer->string, nb_lines, nb_columns);

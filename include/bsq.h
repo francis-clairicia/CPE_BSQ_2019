@@ -16,6 +16,7 @@
 typedef struct s_buffer
 {
     char *string;
+    char *ptr_alloc;
     int size;
 } buffer_t;
 

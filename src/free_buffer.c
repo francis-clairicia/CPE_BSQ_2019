@@ -10,7 +10,7 @@
 
 void free_buffer(buffer_t **buffer)
 {
-    free((*buffer)->string);
+    free((*buffer)->ptr_alloc);
     free(*buffer);
     *buffer = NULL;
 }
