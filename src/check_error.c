@@ -8,16 +8,19 @@
 #include <my.h>
 #include <bsq.h>
 
-static char *get_first_line(char const *buffer)
+static int valid_first_line(char const *buffer)
 {
-    char *first_line = NULL;
     int size_line = my_find_char(buffer, '\n');
+    int i = 0;
 
     if (size_line == -1)
-        return (NULL);
-    first_line = malloc(sizeof(char) * (size_line + 1));
-    my_strncpy(first_line, buffer, size_line);
-    return (first_line);
+        return (0);
+    while (buffer[i] != '\n') {
+        if (buffer[i] < '0' || buffer[i] > '9')
+            return (0);
+        i += 1;
+    }
+    return (1);
 }
 
 static int only_valid_chars(char const *buffer)
@@ -27,10 +30,10 @@ static int only_valid_chars(char const *buffer)
 
     while (buffer[i] != '\0') {
         if (my_find_char(valid_chars, buffer[i]) == -1)
-            return (1);
+            return (0);
         i += 1;
     }
-    return (0);
+    return (1);
 }
 
 static int check_map(char const *buffer, int total_nb_lines)
@@ -38,39 +41,32 @@ static int check_map(char const *buffer, int total_nb_lines)
     int i = 0;
     int nb_lines = 0;
     int nb_columns = 0;
-    int total_nb_columns = 0;
+    int total_nb_columns = my_find_char(buffer, '\n');
 
     while (buffer[i] != '\0') {
-        if (buffer[i] == '\n') {
-            if (nb_lines == 1)
-                total_nb_columns = nb_columns;
-            if (nb_lines > 0 && nb_columns != total_nb_columns)
-                return (1);
+        if (buffer[i] != '\n') {
+            nb_columns += 1;
+        } else if (nb_columns != total_nb_columns) {
+            return (0);
+        } else {
             nb_lines += 1;
             nb_columns = 0;
-        } else
-            nb_columns += 1;
+        }
         i += 1;
     }
     if (nb_lines - 1 != total_nb_lines)
-        return (1);
-    return (0);
+        return (0);
+    return (1);
 }
 
 int check_error(char const *buffer)
 {
-    int nb_lines = 0;
-    char *first_line = get_first_line(buffer);
+    char const *map;
 
-    if (first_line == NULL)
+    if (valid_first_line(buffer) == 0)
         return (1);
-    if (my_str_isnum(first_line) == 0) {
-        free(first_line);
+    map = &buffer[my_find_char(buffer, '\n') + 1];
+    if (only_valid_chars(map) == 0)
         return (1);
-    }
-    nb_lines = my_getnbr(first_line);
-    free(first_line);
-    if (only_valid_chars(&buffer[my_find_char(buffer, '\n') + 1]))
-        return (1);
-    return (check_map(buffer, nb_lines));
+    return (check_map(map, my_getnbr(buffer)));
 }
