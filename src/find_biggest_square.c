@@ -8,16 +8,19 @@
 #include <my.h>
 #include <bsq.h>
 
-static void fill_square(char *buffer, int nb_columns, square_t *square)
+int buffer_index(map_t *map, int x, int y)
 {
-    int index = 0;
+    return (((map->nb_columns + 1) * y) + x);
+}
+
+static void fill_square(map_t *map, square_t *square)
+{
     int i = 0;
     int j = 0;
 
     while (j < square->size) {
         while (i < square->size) {
-            index = (nb_columns * (square->y + j)) + (square->x + i);
-            buffer[index] = 'x';
+            map->buffer[buffer_index(map, square->x + i, square->y + j)] = 'x';
             i += 1;
         }
         i = 0;
@@ -39,5 +42,5 @@ void find_the_biggest_square(char *buffer, int nb_lines, int nb_columns)
         else
             bsq_found = 1;
     }
-    fill_square(buffer, map.nb_columns + 1, &square);
+    fill_square(&map, &square);
 }

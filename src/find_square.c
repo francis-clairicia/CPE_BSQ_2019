@@ -10,13 +10,11 @@
 
 static int check_no_obstacle(int size, map_t *map, int x, int y)
 {
-    int index;
     int i = 0;
     int j = 0;
 
     while (j < size) {
-        index = ((map->nb_columns + 1) * (y + j)) + (x + i);
-        if (map->buffer[index] == 'o')
+        if (map->buffer[buffer_index(map, x + i, y + j)] == 'o')
             return (1);
         i += 1;
         if (i == size) {
