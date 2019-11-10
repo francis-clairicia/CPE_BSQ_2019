@@ -8,48 +8,48 @@
 #include <my.h>
 #include <bsq.h>
 
-static int read_buffer(char const *filepath,  char **buffer)
+buffer_t *read_buffer(char const *filepath)
 {
     int fd = 0;
     int size = 0;
+    buffer_t *buffer = malloc(sizeof(buffer_t));
     struct stat statbuf;
 
+    buffer->string = NULL;
     if (stat(filepath, &statbuf) == -1)
-        return (-1);
+        return (buffer);
     size = statbuf.st_size;
-    *buffer = malloc(sizeof(char) * (size + 1));
+    buffer->string = malloc(sizeof(char) * (size + 1));
     fd = open(filepath, O_RDONLY);
-    size = read(fd, *buffer, size);
-    (*buffer)[size] = 0;
+    buffer->size = read(fd, buffer->string, size);
+    (buffer->string)[buffer->size] = 0;
     close(fd);
-    return (size);
+    return (buffer);
 }
 
-static int get_number_of_lines(char **buffer)
+static int get_number_of_lines(buffer_t *buffer)
 {
+    char *current_buf = buffer->string;
     char *new_buffer = NULL;
-    int nb_lines = my_getnbr(*buffer);
+    int nb_lines = my_getnbr(buffer->string);
 
-    new_buffer = my_strdup(&(*buffer)[my_find_char(*buffer, '\n') + 1]);
-    free(*buffer);
-    *buffer = new_buffer;
+    new_buffer = my_strdup(&current_buf[my_find_char(current_buf, '\n') + 1]);
+    free(buffer->string);
+    buffer->string = new_buffer;
+    buffer->size = my_strlen(new_buffer);
     return (nb_lines);
 }
 
-int bsq(char const *filepath)
+buffer_t *bsq(char const *filepath)
 {
     int nb_lines = 0;
     int nb_columns = 0;
-    char *buffer = NULL;
-    int buffer_size = 0;
+    buffer_t *buffer = read_buffer(filepath);
 
-    buffer_size = read_buffer(filepath, &buffer);
-    if (buffer_size == -1 || check_error(buffer))
-        return (84);
-    nb_lines = get_number_of_lines(&buffer);
-    nb_columns = my_find_char(buffer, '\n');
-    find_the_biggest_square(buffer, nb_lines, nb_columns);
-    write(1, buffer, buffer_size);
-    free(buffer);
-    return (0);
+    if (check_error(buffer->string))
+        return (NULL);
+    nb_lines = get_number_of_lines(buffer);
+    nb_columns = my_find_char(buffer->string, '\n');
+    find_the_biggest_square(buffer->string, nb_lines, nb_columns);
+    return (buffer);
 }

@@ -23,7 +23,7 @@ static char *get_first_line(char const *buffer)
 static int only_valid_chars(char const *buffer)
 {
     int i = 0;
-    char valid_chars[] = "0123456789.o\n";
+    char valid_chars[] = ".o\n";
 
     while (buffer[i] != '\0') {
         if (my_find_char(valid_chars, buffer[i]) == -1)
@@ -70,7 +70,7 @@ int check_error(char const *buffer)
     }
     nb_lines = my_getnbr(first_line);
     free(first_line);
-    if (only_valid_chars(buffer))
+    if (only_valid_chars(&buffer[my_find_char(buffer, '\n') + 1]))
         return (1);
     return (check_map(buffer, nb_lines));
 }
