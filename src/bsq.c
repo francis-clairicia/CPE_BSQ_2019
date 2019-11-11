@@ -8,10 +8,21 @@
 #include <my.h>
 #include <bsq.h>
 
+static int open_map(char const *filepath, buffer_t *buffer, int size)
+{
+    int fd = open(filepath, O_RDONLY);
+
+    if (fd < 0)
+        return (0);
+    buffer->size = read(fd, buffer->string, size);
+    close(fd);
+    if (buffer->size < 0)
+        return (0);
+    return (1);
+}
+
 buffer_t *read_buffer(char const *filepath)
 {
-    int fd = 0;
-    int size = 0;
     buffer_t *buffer = malloc(sizeof(buffer_t));
     struct stat statbuf;
 
@@ -19,16 +30,12 @@ buffer_t *read_buffer(char const *filepath)
         return (NULL);
     if (stat(filepath, &statbuf) == -1)
         return (NULL);
-    size = statbuf.st_size;
-    buffer->string = malloc(sizeof(char) * (size + 1));
+    buffer->string = malloc(sizeof(char) * (statbuf.st_size + 1));
     if (buffer->string == NULL)
         return (NULL);
     buffer->ptr_alloc = buffer->string;
-    buffer->size = read(open(filepath, O_RDONLY), buffer->string, size);
-    if (buffer->size == -1)
+    if (open_map(filepath, buffer, statbuf.st_size) == 0)
         return (NULL);
-    (buffer->string)[buffer->size] = 0;
-    close(fd);
     return (buffer);
 }
 
