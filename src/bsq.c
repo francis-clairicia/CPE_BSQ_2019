@@ -15,13 +15,18 @@ buffer_t *read_buffer(char const *filepath)
     buffer_t *buffer = malloc(sizeof(buffer_t));
     struct stat statbuf;
 
-    buffer->string = NULL;
-    stat(filepath, &statbuf);
+    if (buffer == NULL)
+        return (NULL);
+    if (stat(filepath, &statbuf) == -1)
+        return (NULL);
     size = statbuf.st_size;
     buffer->string = malloc(sizeof(char) * (size + 1));
+    if (buffer->string == NULL)
+        return (NULL);
     buffer->ptr_alloc = buffer->string;
-    fd = open(filepath, O_RDONLY);
-    buffer->size = read(fd, buffer->string, size);
+    buffer->size = read(open(filepath, O_RDONLY), buffer->string, size);
+    if (buffer->size == -1)
+        return (NULL);
     (buffer->string)[buffer->size] = 0;
     close(fd);
     return (buffer);
@@ -44,6 +49,8 @@ buffer_t *bsq(char const *filepath)
     int nb_columns = 0;
     buffer_t *buffer = read_buffer(filepath);
 
+    if (buffer == NULL)
+        return (NULL);
     if (check_error(buffer->string)) {
         free_buffer(&buffer);
         return (NULL);
