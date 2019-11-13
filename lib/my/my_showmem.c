@@ -1,14 +1,18 @@
 /*
 ** EPITECH PROJECT, 2019
-** My showmem()
+** Myshowmem
 ** File description:
 ** Show a memory dump
 */
 
 void my_putchar(char c);
+
 int my_putstr(char const *str);
+
 int my_strlen(char const *str);
+
 int char_is_printable(char c);
+
 void convert_to_hexa(char c, char *str);
 
 void print_string(char const *str, int min, int size)

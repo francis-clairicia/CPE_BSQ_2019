@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_nbr_to_str()
+** my_nbr_to_str
 ** File description:
 ** Put a number into a string
 */

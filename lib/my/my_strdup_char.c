@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_strdup_char()
+** my_strdup_char
 ** File description:
 ** Char to str
 */

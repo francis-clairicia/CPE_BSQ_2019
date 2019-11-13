@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_nbr_len()
+** my_nbr_len
 ** File description:
 ** Lenght ofa number
 */

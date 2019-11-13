@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_concat_list()
+** my_concat_list
 ** File description:
 ** Concatenate two linked lists
 */

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_find_char()
+** my_find_char
 ** File description:
 ** Find a char into a string
 */

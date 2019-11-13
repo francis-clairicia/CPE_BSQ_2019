@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_rev_list()
+** my_rev_list
 ** File description:
 ** Reverse a linked list
 */

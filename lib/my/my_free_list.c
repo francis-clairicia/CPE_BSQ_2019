@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_free_list()
+** my_free_list
 ** File description:
 ** Free data in list
 */

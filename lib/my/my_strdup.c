@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2019
-** My strdup()
+** Mystrdup
 ** File description:
-** Reproduce strdup() function
+** Reproduce function
 */
 
 #include <my.h>

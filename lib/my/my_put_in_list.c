@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_put_in_list()
+** my_put_in_list
 ** File description:
 ** Put an element into a list
 */

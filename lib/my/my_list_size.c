@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** my_list_size()
+** my_list_size
 ** File description:
 ** Returns the size of a linked list
 */

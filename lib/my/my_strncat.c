@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** My strncat()
+** Mystrncat
 ** File description:
 ** Append string into another
 */
