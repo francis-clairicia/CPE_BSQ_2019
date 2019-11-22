@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "csfml.h"
 
 typedef struct s_buffer
 {
@@ -42,5 +43,9 @@ void free_buffer(buffer_t **buffer);
 int check_error(char const *buffer);
 void try_square_of_greater_size(square_t *square, map_t *map);
 int buffer_index(map_t *map, int x, int y);
+
+void show_square(buffer_t *buffer);
+framebuffer_t *get_map(char const *buffer, int show_square);
+void place_framebuffer(framebuffer_t *fb, sfIntRect rect);
 
 #endif
