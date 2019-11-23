@@ -20,7 +20,8 @@ framebuffer_t *framebuffer_create(unsigned int width, unsigned int height)
 
 void framebuffer_update(framebuffer_t *fb)
 {
-    sfTexture_updateFromPixels(fb->texture, fb->pixels, fb->width, fb->height, 0, 0);
+    sfTexture_updateFromPixels(fb->texture, fb->pixels,
+        fb->width, fb->height, 0, 0);
     sfSprite_setTexture(fb->sprite, fb->texture, sfFalse);
 }
 
